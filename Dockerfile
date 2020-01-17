@@ -7,9 +7,14 @@ FROM ubuntu:18.04
 ## https://github.com/RMerl/asuswrt-merlin/wiki/Compile-Firmware-from-source-using-Ubuntu
 ###############################################################################
 
+ENV WORKDIR /opt/merlin
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN mkdir -p $WORKDIR
+WORKDIR ${WORKDIR}
+
 RUN rm -f /bin/sh && ln -sf bash /bin/sh
 
-ENV DEBIAN_FRONTEND=noninteractive
 RUN dpkg --add-architecture i386 
 
 RUN apt-get update && \
@@ -19,13 +24,14 @@ RUN apt-get -y install \
       autoconf \
       autogen \
       automake \
+      automake1.11 \
       autopoint \
       bash \
       bison \
       build-essential \
-      build-essential \
       bzip2 \
       cmake \
+      curl \
       cvs \
       diffutils \
       file \
@@ -36,8 +42,6 @@ RUN apt-get -y install \
       gcc-multilib \
       gconf-editor \
       gettext \
-      git \
-      git \
       git \
       gitk \
       gperf \
@@ -55,7 +59,6 @@ RUN apt-get -y install \
       liblzo2-dev \
       libncurses5 \
       libncurses5-dev \
-      libncurses5-dev \
       libproxy-dev \
       libslang2 \
       libssl-dev \
@@ -65,6 +68,7 @@ RUN apt-get -y install \
       libxml-parser-perl \
       libxml2-dev \
       linux-headers-$(uname -r) \
+      lsb-release \
       lzip \
       m4 \
       make \
@@ -81,14 +85,13 @@ RUN apt-get -y install \
       texinfo \
       unzip \
       uuid-dev \
+      wget \
       xsltproc \
       xutils-dev \
       zlib1g \
       zlib1g-dev
 
-ENV WORKDIR /opt/merlin
-RUN mkdir -p $WORKDIR
-WORKDIR ${WORKDIR}
-
-COPY build-image.sh build-image.sh
-CMD ["./build-image.sh"]
+RUN wget https://raw.githubusercontent.com/assarbad/build-asuswrt-merlin/master/debian-build-image && \
+      chmod +x debian-build-image && \
+      ./debian-build-image --prereq && \
+      rm -rf debian-build-image
