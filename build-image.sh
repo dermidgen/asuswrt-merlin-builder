@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-docker build -t asus-merlin-docker:latest ./
+# docker build -t asus-merlin-docker:latest ./
 
 docker run \
   -it --rm \

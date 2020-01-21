@@ -90,8 +90,3 @@ RUN apt-get -y install \
       xutils-dev \
       zlib1g \
       zlib1g-dev
-
-RUN wget https://raw.githubusercontent.com/assarbad/build-asuswrt-merlin/master/debian-build-image && \
-      chmod +x debian-build-image && \
-      ./debian-build-image --prereq && \
-      rm -rf debian-build-image
